@@ -40,9 +40,12 @@ public class R2dbcTestApplicationTest {
 
     @Test
     public void testSave() {
-        repository.save(TestPersistable.builder()
+        repository.saveAll(Arrays.asList(TestPersistable.builder()
                 .testValue("Test Value")
-                .build()).block();
+                .build()))
+                .as(StepVerifier::create) //
+                .expectNextCount(1) //
+                .verifyComplete();
         log.info("After saving entity.");
     }
 
